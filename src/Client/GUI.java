@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 /*
  * TODO: Add left side of game containing board and pawns
@@ -25,6 +26,7 @@ public class GUI extends Application
     public void start(Stage primaryStage)
     {
         primaryStage.setTitle("Chinese Checkers (beta)");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
 
         // Setting up the main scene
         root = new AnchorPane();
