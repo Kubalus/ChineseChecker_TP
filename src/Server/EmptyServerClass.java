@@ -1,6 +1,4 @@
 package Server;
 
-public class EmptyServerClass
-{
-
+public class EmptyServerClass {
 }
