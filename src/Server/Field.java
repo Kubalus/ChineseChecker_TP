@@ -1,24 +1,29 @@
 package Server;
 
-public class Field {
+public class Field
+{
    private int coordinateX;
    private int coordinateY;
 
-   public Field (int x, int y){
+   public Field (int x, int y)
+   {
        this.coordinateX = x;
        this.coordinateY = y;
    }
 
-   public void setNewCoordinatetes(int x, int y){
+   public void setNewCoordinatetes(int x, int y)
+   {
        this.coordinateX = x;
        this.coordinateY = y;
    }
 
-    public int getCoordinateX() {
+    public int getCoordinateX()
+    {
         return coordinateX;
     }
 
-    public int getCoordinateY() {
+    public int getCoordinateY()
+    {
         return coordinateY;
     }
 }
