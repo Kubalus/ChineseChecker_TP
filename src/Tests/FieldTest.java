@@ -1,6 +1,6 @@
 package Tests;
 
-import Server.Field;
+import Client.Field;
 import org.junit.Before;
 import org.junit.Test;
 
