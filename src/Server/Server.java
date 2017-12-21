@@ -12,11 +12,12 @@ public class Server
     {
         ServerSocket serverSocket = null;
         Socket socket = null;
-
+        System.out.println("Server: Creating server");
         try
         {
             // Setup server socket
             serverSocket = new ServerSocket(PORT);
+            System.out.println("Server: Server running on port number "+PORT);
 
             while(true)
             {

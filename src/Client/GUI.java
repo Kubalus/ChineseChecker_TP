@@ -19,6 +19,8 @@ public class GUI extends Application
 {
     // Temporary data until we'll be able to pass all back-end properties
     int playerPoints[] = {0, 0, 0, 0, 0, 0};
+
+    // Event Handler
     GUIEventHandler handler;
 
     // GUI data
@@ -29,6 +31,7 @@ public class GUI extends Application
     MenuItem rulesM, versionM, authorsM, newGameM, saveM, exitM;
     Text red, blue, green, yellow, black, white;
     Stage primaryStage;
+
 
     @Override
     public void start(Stage primaryStage)
