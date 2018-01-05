@@ -4,11 +4,19 @@ public class Board {
 
     private Field[][] board;
 
-    public Board (){
-        board = new Field[19][15];
+    public void setBoard(Field[][] newBoard){
+        this.board = newBoard;
+    }
+    public Field getField(int x, int y){
+        return board[x][y];
     }
 
-    public Field[] adjacentField (int x, int y){
+
+
+}
+
+/*
+public Field[] adjacentFields (int x, int y){
         Field[] adjacents = new Field[6];
         adjacents[0] = board[x][y-1];
         adjacents[3] = board[x][y+1];
@@ -24,6 +32,5 @@ public class Board {
             adjacents[4] = board[x-1][y+1];
             adjacents[5] = board[x-1][y];
         }
-    return adjacents;
-    }
-}
+        return adjacents;
+ */

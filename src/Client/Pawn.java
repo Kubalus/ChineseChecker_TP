@@ -1,10 +1,16 @@
 package Client;
 
-public class Pawn extends Field{
+public class Pawn{
+    private int coordinateX;
+    private int coordinateY;
+    Player owner;
 
-    public Pawn (int x, int y){
-        super(x,y);
+
+    public Pawn (int x, int y, Player player) {
+        coordinateX = x;
+        coordinateY = y;
+        this.owner = player;
     }
-    // pointer to controlling player
+
 
 }
