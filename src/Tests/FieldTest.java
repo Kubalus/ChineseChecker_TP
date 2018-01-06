@@ -1,6 +1,6 @@
 package Tests;
 
-import Client.Field;
+import Client.AccessibleField;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
 
 public class FieldTest {
 
-    Field testField;
+    AccessibleField testField;
 
     @Before
     public void setUp() throws Exception
     {
-        testField = new Field(0,0);
+        testField = new AccessibleField(0,0);
     }
 
     @Test
@@ -27,14 +27,14 @@ public class FieldTest {
     @Test
     public void getCoordinateX()
     {
-        testField = new Field(10,0);
+        testField = new AccessibleField(10,0);
         assertEquals(10, testField.getCoordinateX());
     }
 
     @Test
     public void getCoordinateY()
     {
-        testField = new Field(0,10);
+        testField = new AccessibleField(0,10);
         assertEquals(10, testField.getCoordinateY());
     }
 }

@@ -7,8 +7,8 @@ public class WinningField extends Field {
         super(x, y);
     }
 
-    public void setOwner( Player player){
+    @Override
+    public void setOwner(Player player) {
         this.owner = player;
     }
-
 }

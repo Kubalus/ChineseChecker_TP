@@ -6,14 +6,17 @@ public class AccessibleField extends Field {
 
 
     public AccessibleField(int x, int y) {
+
         super(x, y);
+        pawn = null;
     }
 
-    public void setPawn(){
+    public void removePawn(){
         this.pawn = null;
     }
 
-    public void setPawn(Pawn pawn){
+    @Override
+    public void setPawn(Pawn pawn) {
         this.pawn = pawn;
     }
 }

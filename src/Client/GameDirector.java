@@ -1,19 +1,21 @@
 package Client;
 
 
-public class BoardDirector {
-    private BoardBuilder builder;
+public class GameDirector {
+    private GameBuilder builder;
 
-    public void setBuilder(BoardBuilder builder) {
+    public void setBuilder(GameBuilder builder) {
         this.builder = builder;
     }
 
     public Board getBoard(){
         return builder.getBoard();
     }
-    public void createBoard(){
+    public void createGame(){
         builder.newBoard();
         builder.buildBoard();
+        builder.createPlayers();
         builder.seedPawns();
+        builder.setWinningZones();
     }
 }

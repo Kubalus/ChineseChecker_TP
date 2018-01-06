@@ -7,10 +7,10 @@ import java.lang.*;
 
 import static org.junit.Assert.*;
 
-public class BoardBuilderTest {
+public class BoardBuildingTest {
 
-    Board testBoard;
-    Field testField;
+    private Board testBoard;
+    private Field testField;
 
     // Testing creating of CCBoard based on 6 chosen fields
 
@@ -18,10 +18,10 @@ public class BoardBuilderTest {
     public void setUp() throws Exception
     {
 
-        BoardDirector director = new BoardDirector();
-        BoardBuilder builder = new CCBoard6P();
+        GameDirector director = new GameDirector();
+        GameBuilder builder = new CCBoard6P();
         director.setBuilder(builder);
-        director.createBoard();
+        director.createGame();
         testBoard = director.getBoard();
 
     }

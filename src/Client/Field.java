@@ -1,6 +1,6 @@
 package Client;
 
-public class Field
+public abstract class Field
 {
    private int coordinateX;
    private int coordinateY;
@@ -25,6 +25,14 @@ public class Field
     public int getCoordinateY()
     {
         return coordinateY;
+    }
+
+    public void setPawn(Pawn pawn){
+        // TODO: Handle setting Pawn on Inaccessible fields
+    }
+
+    public void setOwner(Player player){
+       // TODO: the same as higher ( each Field Class excluding WinningField)
     }
 }
 
