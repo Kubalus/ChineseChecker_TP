@@ -2,6 +2,7 @@ package Client;
 
 public abstract class Field
 {
+   Pawn pawn;
    private int coordinateX;
    private int coordinateY;
 

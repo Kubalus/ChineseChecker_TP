@@ -11,6 +11,7 @@ public class GameDirector {
     public Board getBoard(){
         return builder.getBoard();
     }
+
     public void createGame(){
         builder.newBoard();
         builder.buildBoard();

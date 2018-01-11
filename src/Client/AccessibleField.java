@@ -2,9 +2,6 @@ package Client;
 
 public class AccessibleField extends Field {
 
-    Pawn pawn;
-
-
     public AccessibleField(int x, int y) {
 
         super(x, y);

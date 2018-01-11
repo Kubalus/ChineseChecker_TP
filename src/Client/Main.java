@@ -24,7 +24,7 @@ public class Main extends Application
         Parent root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
         primaryStage.setTitle("Chinese Checkers");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
-        primaryStage.setScene(new Scene(root, 995,710));
+        primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
     }

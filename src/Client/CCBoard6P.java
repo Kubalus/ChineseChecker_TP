@@ -30,7 +30,7 @@ public class CCBoard6P extends GameBuilder {
                     tempBoard[i][j] = new WinningField(i,j);
                 else if (j == 7 && ((i >= 1 && i <= 4) || (i >= 14 && i <= 17)))
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 8 && ((i >= 2 && i <= 4) || (i >= 14 && i <= 17)))
+                else if (j == 8 && ((i >= 2 && i <= 4) || (i >= 14 && i <= 16)))
                     tempBoard[i][j] = new WinningField(i,j);
                 else if (j == 9 && (i == 4 || i == 14))
                     tempBoard[i][j] = new WinningField(i,j);
