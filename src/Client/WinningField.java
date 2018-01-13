@@ -1,7 +1,7 @@
 package Client;
 
 public class WinningField extends Field {
-    private Player owner;
+    private Player owner = null;
 
     public WinningField(int x, int y) {
         super(x, y);
@@ -10,5 +10,10 @@ public class WinningField extends Field {
     @Override
     public void setOwner(Player player) {
         this.owner = player;
+    }
+
+    @Override
+    public Player getOwner(Field field) {
+        return owner;
     }
 }

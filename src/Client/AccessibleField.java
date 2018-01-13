@@ -1,6 +1,7 @@
 package Client;
 
 public class AccessibleField extends Field {
+    Pawn pawn;
 
     public AccessibleField(int x, int y) {
 
@@ -15,5 +16,10 @@ public class AccessibleField extends Field {
     @Override
     public void setPawn(Pawn pawn) {
         this.pawn = pawn;
+    }
+
+    @Override
+    public Pawn getPawn(Field field) {
+        return pawn;
     }
 }

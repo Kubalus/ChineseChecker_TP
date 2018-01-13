@@ -2,7 +2,6 @@ package Client;
 
 public abstract class Field
 {
-   Pawn pawn;
    private int coordinateX;
    private int coordinateY;
 
@@ -34,6 +33,15 @@ public abstract class Field
 
     public void setOwner(Player player){
        // TODO: the same as higher ( each Field Class excluding WinningField)
+    }
+
+    public Player getOwner(Field field){
+        return null;
+    }
+
+    public Pawn getPawn(Field field){
+        return null;
+
     }
 }
 
