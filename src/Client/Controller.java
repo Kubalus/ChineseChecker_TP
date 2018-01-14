@@ -69,46 +69,10 @@ public class Controller implements Initializable
                     if(i % 2 == 1)
                     {
                         boardFill(i, j, false);
-                        /*Polygon poly = new Polygon(27*(1), 27*(0),
-                                27*(0.5), 27*(0.86602540378),
-                                27*(-0.5), 27*(0.86602540378),
-                                27*(-1), 27*(0),
-                                27*(-0.5), 27*(-0.86602540378),
-                                27*(0.5), 27*(-0.86602540378));
-
-                        poly.setFill(Paint.valueOf("GREY"));
-                        poly.setStroke(Paint.valueOf("BLACK"));
-                        boardGrid.add(poly, i, j);
-
-                        if(gameBoard.getField(i, j).pawn != null)
-                        {
-                            Circle circle = new Circle(15);
-                            circle.translateXProperty().set(14);
-                            boardGrid.add(circle, i, j);
-                        }*/
-
                     }
                     else
                     {
                         boardFill(i, j, true);
-                       /* Polygon poly = new Polygon(27*(1), 27*(0),
-                                27*(0.5), 27*(0.86602540378),
-                                27*(-0.5), 27*(0.86602540378),
-                                27*(-1), 27*(0),
-                                27*(-0.5), 27*(-0.86602540378),
-                                27*(0.5), 27*(-0.86602540378));
-                        poly.translateYProperty().set(-23);
-                        poly.setFill(Paint.valueOf("GREY"));
-                        poly.setStroke(Paint.valueOf("BLACK"));
-                        boardGrid.add(poly, i, j);
-
-                        if(gameBoard.getField(i, j).pawn != null)
-                        {
-                            Circle circle = new Circle(15);
-                            circle.translateYProperty().set(-23);
-                            circle.translateXProperty().set(14);
-                            boardGrid.add(circle, i, j);
-                        }*/
                     }
                 }
                 else if(gameBoard.getField(i, j).getClass() == WinningField.class)
@@ -116,80 +80,17 @@ public class Controller implements Initializable
                     if(i % 2 == 1)
                     {
                         boardFill(i, j, false);
-                        /*Polygon poly = new Polygon(27*(1), 27*(0),
-                                27*(0.5), 27*(0.86602540378),
-                                27*(-0.5), 27*(0.86602540378),
-                                27*(-1), 27*(0),
-                                27*(-0.5), 27*(-0.86602540378),
-                                27*(0.5), 27*(-0.86602540378));
-
-                        poly.setFill(Paint.valueOf("WHITE"));
-                        poly.setStroke(Paint.valueOf("BLACK"));
-                        boardGrid.add(poly, i, j);
-
-                        if(gameBoard.getField(i, j).pawn != null)
-                        {
-                            Circle circle = new Circle(15);
-                            circle.translateXProperty().set(14);
-                            boardGrid.add(circle, i, j);
-                        }*/
                     }
                     else
                     {
                         boardFill(i, j, true);
-                       /* Polygon poly = new Polygon(27*(1), 27*(0),
-                                27*(0.5), 27*(0.86602540378),
-                                27*(-0.5), 27*(0.86602540378),
-                                27*(-1), 27*(0),
-                                27*(-0.5), 27*(-0.86602540378),
-                                27*(0.5), 27*(-0.86602540378));
-                        poly.translateYProperty().set(-23);
-                        poly.setFill(Paint.valueOf("WHITE"));
-                        poly.setStroke(Paint.valueOf("BLACK"));
-                        boardGrid.add(poly, i, j);
-
-                        if(gameBoard.getField(i, j).pawn != null)
-                        {
-                            Circle circle = new Circle(15);
-                            circle.translateYProperty().set(-23);
-                            circle.translateXProperty().set(14);
-                            for(int var = 0; var <= 6; var++)
-                            {
-                                if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var]))
-                                {
-                                    switch (var){
-                                        case 0:
-                                            circle.setFill(Paint.valueOf("RED"));
-                                            break;
-                                        case 1:
-                                            circle.setFill(Paint.valueOf("BLUE"));
-                                            break;
-                                        case 2:
-                                            circle.setFill(Paint.valueOf("GREEN"));
-                                            break;
-                                        case 3:
-                                            circle.setFill(Paint.valueOf("YELLOW"));
-                                            break;
-                                        case 4:
-                                            circle.setFill(Paint.valueOf("BLACK"));
-                                            break;
-                                        case 5:
-                                            circle.setFill(Paint.valueOf("WHITE"));
-                                            break;
-                                    }
-                                }
-                            }
-
-                            circle.setStroke(Paint.valueOf("BLACK"));
-                            boardGrid.add(circle, i, j);
-                        }*/
                     }
                 }
             }
         }
     }
 
-    // Filling board with proper collored pawns and fields
+    // Filling board with proper colored pawns and fields
     private void boardFill(int i, int j, boolean shifted)
     {
         Polygon poly = new Polygon(27*(1), 27*(0),
@@ -203,7 +104,7 @@ public class Controller implements Initializable
             poly.translateYProperty().set(-23);
         }
 
-        /*if(gameBoard.getField(i, j).getClass() == WinningField.class)
+        if(gameBoard.getField(i, j).getClass() == WinningField.class)
         {
             for(int var = 0; var < 6; var++)
             {
@@ -223,7 +124,7 @@ public class Controller implements Initializable
                             poly.setFill(Paint.valueOf("YELLOW"));
                             break;
                         case 4:
-                            poly.setFill(Paint.valueOf("BLACK"));
+                            poly.setFill(Paint.valueOf("#4f4f4f"));
                             break;
                         case 5:
                             poly.setFill(Paint.valueOf("WHITE"));
@@ -233,9 +134,9 @@ public class Controller implements Initializable
             }
         }
         else
-        {*/
+        {
             poly.setFill(Paint.valueOf("#d6d6d6"));
-        //}
+        }
 
         poly.setStroke(Paint.valueOf("BLACK"));
         boardGrid.add(poly, i, j);
