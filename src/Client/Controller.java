@@ -1,5 +1,6 @@
 package Client;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
@@ -19,8 +21,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
 
 public class Controller implements Initializable
 {
@@ -29,6 +32,13 @@ public class Controller implements Initializable
     Board gameBoard;
     GameDirector director;
     GameBuilder builder;
+    List<Circle> pawns = new ArrayList();
+
+    @FXML MenuItem twoPlayers;
+    @FXML MenuItem threePlayers;
+    @FXML MenuItem fourPlayers;
+    @FXML MenuItem sixPlayers;
+    @FXML MenuItem startGame;
 
     @FXML GridPane boardGrid;
     @FXML MenuItem exitMI;
@@ -39,20 +49,14 @@ public class Controller implements Initializable
     @Override // Initializer for our GUI Controller
     public void initialize(URL location, ResourceBundle resources)
     {
-        this.client = new Client();
+        connectToServer();
         boardGrid.setAlignment(Pos.CENTER);
     }
 
-    @FXML
-    public void newGame()
+    public void connectToServer()
     {
-        director = new GameDirector();
-        builder = new CCBoard6P();
-        director.setBuilder(builder);
-        director.createGame();
-        gameBoard = director.getBoard();
-
-        refresh();
+        client = new Client();
+        client.start();
     }
 
     // Refreshing board
@@ -143,12 +147,15 @@ public class Controller implements Initializable
 
         if(gameBoard.getField(i, j).getPawn()!= null)
         {
+
             Circle circle = new Circle(15);
             if(shifted)
             {
                 circle.translateYProperty().set(-23);
             }
             circle.translateXProperty().set(14);
+            pawns.add(circle);
+            circle.setOnMouseClicked(event -> pawnClicked(circle));
             for(int var = 0; var < 6; var++)
             {
                 //if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var])
@@ -178,25 +185,70 @@ public class Controller implements Initializable
 
             circle.setStroke(Paint.valueOf("BLACK"));
             boardGrid.add(circle, i, j);
+
+
         }
+    }
+
+    // Probably will have to add coordinates to arguments
+    private void pawnClicked(Circle circle)
+    {
+        // Clear effects for other pawns
+        for(int i = 0; i < pawns.size(); i++)
+        {
+            System.out.println(i);
+            pawns.get(i).setEffect(null);
+        }
+
+        // Set effect for this pawn
+        circle.setEffect(new DropShadow());
+    }
+
+    @FXML
+    public void newGame(ActionEvent e)
+    {
+        if(e.getSource().equals(twoPlayers))
+        {
+            client.sendMessage("I 2");
+        }
+        else if(e.getSource().equals(threePlayers))
+        {
+            client.sendMessage("I 3");
+        }
+        else if(e.getSource().equals(fourPlayers))
+        {
+            client.sendMessage("I 4");
+        }
+        else if(e.getSource().equals(sixPlayers))
+        {
+            client.sendMessage("I 6");
+        }
+
+        director = new GameDirector();
+        builder = new CCBoard6P();
+        director.setBuilder(builder);
+        director.createGame();
+        gameBoard = director.getBoard();
+
+        startGame.setDisable(true);
+
+        refresh();
     }
 
     @FXML // EXIT menu item handler (exits game)
     public void exitHandler()
     {
+        if(client != null)
+        {
+            client.sendMessage("END");
+        }
         System.exit(0);
     }
 
     @FXML // END TURN button handler (increments all score values)
     public void endTurn()
     {
-        System.out.println("Turn passed... \n -- Incrementing point values");
-        redPoints.setText(""+(Integer.parseInt(redPoints.getText())+1));
-        bluePoints.setText(""+(Integer.parseInt(bluePoints.getText())+1));
-        greenPoints.setText(""+(Integer.parseInt(greenPoints.getText())+1));
-        yellowPoints.setText(""+(Integer.parseInt(yellowPoints.getText())+1));
-        blackPoints.setText(""+(Integer.parseInt(blackPoints.getText())+1));
-        whitePoints.setText(""+(Integer.parseInt(whitePoints.getText())+1));
+        System.out.println("Turn passed... \n");
 
         if(!boardGrid.getChildren().isEmpty())
         {

@@ -3,23 +3,33 @@ package Client;
 import java.io.*;
 import java.net.*;
 
-public class Client
+public class Client extends Thread
 {
-    int PORT = 1201;
-    Socket socket;
-    DataInputStream dataIn;
-    DataOutputStream dataOut;
-    String messageIn="", messageOut="";
+    private final int PORT = 1201;
+    private Socket socket;
+    private DataInputStream dataIn;
+    private DataOutputStream dataOut;
+    private String messageIn="";
 
     Client()
     {
-        System.out.println("Clietnt: Creating client");
         try
         {
+            System.out.println("Clietnt: Creating client");
             // Set client on server
             socket = new Socket("127.0.0.1", PORT);
             System.out.println("Client: Conected to a server");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
+    public void run()
+    {
+        try
+        {
             // Initialize Input and Output streams
             dataIn = new DataInputStream(socket.getInputStream());
             dataOut = new DataOutputStream(socket.getOutputStream());
@@ -27,20 +37,27 @@ public class Client
 
             while(!messageIn.equals("END"))
             {
-                // Send data
-                if(messageOut.equals(""))
-                {
-                    dataOut.writeUTF(messageOut);
-                }
-
                 // Receive data and print it on console
                 messageIn = dataIn.readUTF();
                 System.out.println(messageIn);
             }
         }
-        catch(IOException ex)
+        catch(IOException e)
         {
-            ex.printStackTrace();
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(String message)
+    {
+        try
+        {
+            dataOut.writeUTF(message);
+            System.out.println("Client: message " + '\"' + message + '\"' + " has been send");
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
         }
     }
 }
