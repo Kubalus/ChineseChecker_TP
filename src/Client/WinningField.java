@@ -13,7 +13,7 @@ public class WinningField extends Field {
     }
 
     @Override
-    public Player getOwner(Field field) {
+    public Player getOwner() {
         return owner;
     }
 }

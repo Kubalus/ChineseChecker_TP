@@ -240,7 +240,7 @@ public class Controller implements Initializable
         poly.setStroke(Paint.valueOf("BLACK"));
         boardGrid.add(poly, i, j);
 
-        if(gameBoard.getField(i, j).pawn != null)
+        if(gameBoard.getField(i, j).getPawn()!= null)
         {
             Circle circle = new Circle(15);
             if(shifted)
@@ -250,7 +250,8 @@ public class Controller implements Initializable
             circle.translateXProperty().set(14);
             for(int var = 0; var < 6; var++)
             {
-                if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var])) {
+                //if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var])
+                if (gameBoard.getField(i, j).getPawn().getOwner().equals(builder.players[var])) {
                     switch (var) {
                         case 0:
                             circle.setFill(Paint.valueOf("RED"));

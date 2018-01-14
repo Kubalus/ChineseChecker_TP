@@ -35,11 +35,11 @@ public abstract class Field
        // TODO: the same as higher ( each Field Class excluding WinningField)
     }
 
-    public Player getOwner(Field field){
+    public Player getOwner(){
         return null;
     }
 
-    public Pawn getPawn(Field field){
+    public Pawn getPawn(){
         return null;
 
     }

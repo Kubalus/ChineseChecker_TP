@@ -3,7 +3,7 @@ package Client;
 public class Pawn{
     private int coordinateX;
     private int coordinateY;
-    Player owner;
+    private Player owner;
 
 
     public Pawn (int x, int y, Player player) {
@@ -12,5 +12,15 @@ public class Pawn{
         this.owner = player;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
 
+    public int getCoordinateX() {
+        return coordinateX;
+    }
+
+    public int getCoordinateY() {
+        return coordinateY;
+    }
 }

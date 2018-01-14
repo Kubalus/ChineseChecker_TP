@@ -19,7 +19,7 @@ public class AccessibleField extends Field {
     }
 
     @Override
-    public Pawn getPawn(Field field) {
+    public Pawn getPawn() {
         return pawn;
     }
 }
