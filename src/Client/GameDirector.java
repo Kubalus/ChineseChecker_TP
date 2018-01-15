@@ -20,5 +20,6 @@ public class GameDirector {
         builder.setWinningZones();
         builder.setAdjacency();
         builder.setMoving();
+        builder.setWinning();
     }
 }

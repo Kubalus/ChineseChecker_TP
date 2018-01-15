@@ -15,7 +15,7 @@ public class Client extends Thread
     {
         try
         {
-            System.out.println("Clietnt: Creating client");
+            System.out.println("Client: Creating client");
             // Set client on server
             socket = new Socket("127.0.0.1", PORT);
             System.out.println("Client: Conected to a server");
