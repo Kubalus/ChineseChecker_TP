@@ -180,27 +180,27 @@ public class CCBoard3P extends GameBuilder {
     public void setWinningZones() {
 
 
-        // setting winning field for Player 1
+        // setting winning field for Player 3
         for(int i = 10; i <= 13; i++){
             for(int j = 1; j <= 4; j++){
                 if(j == 3){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 2 && i >= 11 ){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 4 && i >= 12){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(i == 13 && j == 1){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
             }
         }
@@ -236,23 +236,23 @@ public class CCBoard3P extends GameBuilder {
         for(int i = 10; i <= 13; i++){
             for(int j = 10; j <= 13; j++){
                 if(j == 12){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 11 && i >= 11 ){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 13 && i >= 12){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(i == 13 && j == 10){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
             }
         }
