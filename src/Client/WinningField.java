@@ -5,6 +5,7 @@ public class WinningField extends Field {
 
     public WinningField(int x, int y) {
         super(x, y);
+        owner = null;
     }
 
     @Override
