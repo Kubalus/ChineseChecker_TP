@@ -23,6 +23,7 @@ public class CCMoving implements MovingStrategy {
                     }
                 }
                 else {
+                    // TODO: handle move after jump
                     tempFieldTable = game.getAdjacencyRule().adjacentFields(adjacentFields[i],game.getBoardObject().getBoard());
                     temp = tempFieldTable[i];
                     if (temp.getPawn() == null) {
@@ -41,8 +42,6 @@ public class CCMoving implements MovingStrategy {
 
         return possibles;
     }
-
-
 
 
 
