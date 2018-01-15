@@ -65,7 +65,7 @@ public class CCBoard6P extends GameBuilder {
     @Override
     public void seedPawns(){
 
-        Pawn tempPawn;
+         Pawn tempPawn;
 
         // Pawns for player1
         for(int i = 5; i <= 8; i++){
@@ -366,6 +366,16 @@ public class CCBoard6P extends GameBuilder {
             }
         }
 
+    }
+
+    @Override
+    public void setAdjacency() {
+        this.adjacencyRule = new HexagonalAdjacency();
+    }
+
+    @Override
+    public void setMoving() {
+        this.movingRule = new CCMoving();
     }
 }
 

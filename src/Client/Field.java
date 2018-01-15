@@ -7,6 +7,7 @@ public abstract class Field
 
    public Field (int x, int y)
    {
+
        this.coordinateX = x;
        this.coordinateY = y;
    }
