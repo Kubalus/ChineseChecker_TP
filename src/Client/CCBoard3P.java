@@ -18,54 +18,59 @@ public class CCBoard3P extends GameBuilder {
                     tempBoard[i][j] = new AccessibleField(i, j);
                 else if (i == 9 && j == 3)
                     tempBoard[i][j] = new AccessibleField(i, j);
-                else if (j == 1 && i == 13)
+
+
+                else if (j == 1 && i == 5)
                     tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 2 && i >= 11 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 3 && i >= 10 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 4 && i >= 12 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 6 && i >= 3 && i <= 4)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 7 && i >= 1 && i <= 4)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 8 && i >= 2 && i <= 4)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 9 && i == 4)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 10 &&  i == 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 11 &&  i >= 11 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 12 &&  i >= 10 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 13 && i >= 12 && i <= 13)
-                    tempBoard[i][j] = new AccessibleField(i,j);
-                else if (j == 1 && i == 5 )
-                    tempBoard[i][j] = new WinningField(i,j);
                 else if (j == 2 && i >= 5 && i <= 7)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 3 && i >= 5 && i <= 8)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 4 && i >= 5 && i <= 6)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 6 && i >= 14 && i <= 15)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 7 && i >= 14 && i <= 17)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 8 && i >= 14 && i <= 16)
-                    tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 9 &&  i == 14)
-                    tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 10 && (i == 5 || i == 13))
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 9 && i == 14)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 10 && i == 5)
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 11 && i >= 5 && i <= 7)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 12 && i >= 5 && i <= 8)
-                    tempBoard[i][j] = new WinningField(i,j);
+                    tempBoard[i][j] = new AccessibleField(i,j);
                 else if (j == 13 && i >= 5 && i <= 6)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+
+                else if (j == 1 &&  i == 13)
                     tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 2 && i >= 11 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 3 && i >= 10 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 4 && i >= 12 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 6 && i >= 3 && i <= 4)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 7 && i >= 1 && i <= 4)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 8 && i >= 2 && i <= 4)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 9 && i == 4)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 10 && i == 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 11 && i >= 11 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 12 && i >= 10 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+                else if (j == 13 && i >= 12 && i <= 13)
+                    tempBoard[i][j] = new WinningField(i,j);
+
+
                 else
                     tempBoard[i][j] = new InaccessibleField(i,j);
             }
@@ -184,23 +189,23 @@ public class CCBoard3P extends GameBuilder {
         for(int i = 10; i <= 13; i++){
             for(int j = 1; j <= 4; j++){
                 if(j == 3){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 2 && i >= 11 ){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 4 && i >= 12){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(i == 13 && j == 1){
-                    this.board.getField(i,j).setOwner(this.players[2]);
-                    this.players[2].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[0]);
+                    this.players[0].addWinningField(this.board.getField(i,j));
                 }
             }
         }
@@ -236,23 +241,23 @@ public class CCBoard3P extends GameBuilder {
         for(int i = 10; i <= 13; i++){
             for(int j = 10; j <= 13; j++){
                 if(j == 12){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 11 && i >= 11 ){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
                 else if(j == 13 && i >= 12){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
 
-                else if(i == 13 && j == 10){
-                    this.board.getField(i,j).setOwner(this.players[0]);
-                    this.players[0].addWinningField(this.board.getField(i,j));
+                else if(j== 10 && i == 13){
+                    this.board.getField(i,j).setOwner(this.players[2]);
+                    this.players[2].addWinningField(this.board.getField(i,j));
                 }
             }
         }
