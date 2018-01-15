@@ -1,6 +1,6 @@
 package Client;
 
-public class WinningField extends Field {
+public class WinningField extends AccessibleField {
     private Player owner = null;
 
     public WinningField(int x, int y) {
