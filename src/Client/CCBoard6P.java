@@ -160,7 +160,7 @@ public class CCBoard6P extends GameBuilder {
                     this.players[3].addPawn(tempPawn);
                 }
 
-                else if(j == 6 && i >= 2 ){
+                else if(j == 6 && i > 2 ){
                     tempPawn = new Pawn(i,j,this.players[3]);
                     this.board.getField(i,j).setPawn(tempPawn);
                     this.players[3].addPawn(tempPawn);
@@ -218,7 +218,7 @@ public class CCBoard6P extends GameBuilder {
                     this.players[5].addPawn(tempPawn);
                 }
 
-                else if(j == 11 && i >= 10 ){
+                else if(j == 11 && i > 10 ){
                     tempPawn = new Pawn(i,j,this.players[5]);
                     this.board.getField(i,j).setPawn(tempPawn);
                     this.players[5].addPawn(tempPawn);
