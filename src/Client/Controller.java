@@ -115,6 +115,7 @@ public class Controller implements Initializable
         {
             for(int var = 0; var < game.getPlayers().length; var++)
             {
+                if(game.getBoard().getField(i, j).getOwner() != null)
                 if(game.getBoard().getField(i, j).getOwner().equals(game.getPlayers()[var]))
                 {
                     switch (var) {
@@ -136,6 +137,8 @@ public class Controller implements Initializable
                         case 5:
                             poly.setFill(Paint.valueOf("WHITE"));
                             break;
+
+
                     }
                 }
             }
