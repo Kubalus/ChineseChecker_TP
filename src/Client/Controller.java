@@ -15,6 +15,7 @@ import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -31,9 +32,10 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable
 {
-    Game game;
-    Client client;
-    List<Circle> pawnsGUI = new ArrayList();
+    private Game game;
+    private Client client;
+    private List<Circle> pawnsGUI = new ArrayList();
+    private int playerNum = -1;
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -41,6 +43,7 @@ public class Controller implements Initializable
     @FXML MenuItem sixPlayers;
     @FXML MenuItem startGame;
 
+    @FXML AnchorPane mainPane;
     @FXML GridPane boardGrid;
     @FXML MenuItem exitMI;
     @FXML Button endTurnB;
@@ -56,7 +59,7 @@ public class Controller implements Initializable
 
     public void connectToServer()
     {
-        client = new Client();
+        client = new Client(this);
         client.start();
     }
 
@@ -165,7 +168,7 @@ public class Controller implements Initializable
                 }
                 circle.translateXProperty().set(14);
                 pawnsGUI.add(circle);
-                circle.setOnMouseClicked(event -> pawnClicked(circle));
+                circle.setOnMouseClicked(event -> pawnClicked(circle, x, y));
 
                 switch (i) {
                     case 0:
@@ -194,19 +197,27 @@ public class Controller implements Initializable
     }
 
     // Probably will have to add coordinates to arguments
-    private void pawnClicked(Circle circle)
+    private void pawnClicked(Circle circle, int x, int y)
     {
-        // Clear effects for other pawns
-        for(int i = 0; i < pawnsGUI.size(); i++)
+        if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
         {
-            pawnsGUI.get(i).setEffect(null);
-        }
+            // Clear effects for other pawns
+            for(int i = 0; i < pawnsGUI.size(); i++)
+            {
+                pawnsGUI.get(i).setEffect(null);
+            }
 
-        // Set effect for this pawn
-        //DropShadow shadow = new DropShadow();
-        //shadow.colorProperty().set(Color.valueOf("BLACK"));
-        Lighting lighting = new Lighting();
-        circle.setEffect(lighting);
+            // Set effect for this pawn
+            Lighting lighting = new Lighting();
+            circle.setEffect(lighting);
+            System.out.println(game.getBoard().getField(x, y).getPawn().getOwner()+" "+game.getPlayers()[playerNum]);
+        }
+    }
+
+    public void unlock(int playerNum)
+    {
+        this.playerNum = playerNum;
+        mainPane.setDisable(false);
     }
 
     @FXML
@@ -241,6 +252,7 @@ public class Controller implements Initializable
         game = builder.setupGame();
 
         startGame.setDisable(true);
+        mainPane.setDisable(true);
 
         refresh();
     }

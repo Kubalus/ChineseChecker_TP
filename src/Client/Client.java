@@ -10,9 +10,12 @@ public class Client extends Thread
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
     private String messageIn="";
+    private int playerNum;
+    private Controller controller;
 
-    Client()
+    Client(Controller controller)
     {
+        this.controller = controller;
         try
         {
             System.out.println("Client: Creating client");
@@ -39,7 +42,8 @@ public class Client extends Thread
             {
                 // Receive data and print it on console
                 messageIn = dataIn.readUTF();
-                System.out.println(messageIn);
+                System.out.println("Recived message: "+messageIn);
+                getMessage(messageIn);
             }
         }
         catch(IOException e)
@@ -58,6 +62,16 @@ public class Client extends Thread
         catch(IOException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void getMessage(String message)
+    {
+        String temp[] = message.split(" ");
+        if(temp[0].equals("I"))
+        {
+            playerNum = Integer.parseInt(temp[1]);
+            controller.unlock(Integer.parseInt(temp[1]));
         }
     }
 }
