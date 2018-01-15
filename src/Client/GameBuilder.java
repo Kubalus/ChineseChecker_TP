@@ -6,6 +6,9 @@ package Client;
 public abstract class GameBuilder {
     protected Board board;
     protected Player[] players;
+    protected AdjacencyStrategy adjacencyRule;
+    protected MovingStrategy movingRule;
+    protected WinningStrategy winningRule;
 
     public void newBoard(){
         this.board = new Board();
@@ -23,4 +26,7 @@ public abstract class GameBuilder {
     public abstract void createPlayers();
     public abstract void setWinningZones();
     public abstract void seedPawns();
+    public abstract void setAdjacency();
+    public abstract void setMoving();
+    public abstract void setWinning();
 }

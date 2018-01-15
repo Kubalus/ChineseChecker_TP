@@ -22,7 +22,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/GUI.fxml"));
         root = fxmlLoader.load();
 
@@ -31,25 +30,8 @@ public class Main extends Application
         primaryStage.setTitle("Chinese Checkers");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
         primaryStage.setScene(new Scene(root));
+        primaryStage.setOnCloseRequest(e -> gui.exitHandler());
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
-    public Controller getController()
-    {
-        return gui;
-    }
-
-    /*
-    @Override
-    public void start(Stage primaryStage) throws Exception
-    {
-        root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
-        primaryStage.setTitle("Chinese Checkers");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-    */
 }

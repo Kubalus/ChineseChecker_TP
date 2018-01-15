@@ -7,6 +7,7 @@ public abstract class Field
 
    public Field (int x, int y)
    {
+
        this.coordinateX = x;
        this.coordinateY = y;
    }
@@ -28,11 +29,11 @@ public abstract class Field
     }
 
     public void setPawn(Pawn pawn){
-        // TODO: Handle setting Pawn on Inaccessible fields
+
     }
 
     public void setOwner(Player player){
-       // TODO: the same as higher ( each Field Class excluding WinningField)
+
     }
 
     public Player getOwner(){

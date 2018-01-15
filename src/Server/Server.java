@@ -1,17 +1,20 @@
 package Server;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server
 {
-    // Port number
     static final int PORT = 1201;
+    ServerSocket serverSocket = null;
+    Socket socket = null;
+    List<Room> rooms = new ArrayList<>();
 
-    public static void main(String[] args)
+    Server()
     {
-        ServerSocket serverSocket = null;
-        Socket socket = null;
         System.out.println("Server: Creating server");
         try
         {
@@ -25,12 +28,33 @@ public class Server
                 socket = serverSocket.accept();
 
                 // Create new thread for a client
-                new ServerThread(socket).start();
+                new ServerThread(socket, this).start();
             }
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
         }
+    }
+
+    public Room addToRoom(ServerThread serverThread, int limit)
+    {
+        for(int i = 0; i < rooms.size(); i++)
+        {
+            if (rooms.get(i).limit == limit)
+            {
+                if (rooms.get(i).addPlayer(serverThread))
+                {
+                    System.out.println("Server: new player added to room nr. "+i);
+                    return rooms.get(i);
+                }
+            }
+        }
+
+        System.out.println("Server: No rooms left, creating new room");
+        Room temp = new Room(this, limit);
+        temp.addPlayer(serverThread);
+        rooms.add(temp);
+        return temp;
     }
 }
