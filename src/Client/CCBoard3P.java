@@ -18,29 +18,53 @@ public class CCBoard3P extends GameBuilder {
                     tempBoard[i][j] = new AccessibleField(i, j);
                 else if (i == 9 && j == 3)
                     tempBoard[i][j] = new AccessibleField(i, j);
-                else if (j == 1 && (i == 5 || i == 13))
+                else if (j == 1 && i == 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 2 && i >= 11 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 3 && i >= 10 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 4 && i >= 12 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 6 && i >= 3 && i <= 4)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 7 && i >= 1 && i <= 4)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 8 && i >= 2 && i <= 4)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 9 && i == 4)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 10 &&  i == 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 11 &&  i >= 11 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 12 &&  i >= 10 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 13 && i >= 12 && i <= 13)
+                    tempBoard[i][j] = new AccessibleField(i,j);
+                else if (j == 1 && i == 5 )
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 2 && ((i >= 5 && i <= 7) || (i >= 11 && i <= 13)))
+                else if (j == 2 && i >= 5 && i <= 7)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 3 && ((i >= 5 && i <= 8) || (i >= 10 && i <= 13)))
+                else if (j == 3 && i >= 5 && i <= 8)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 4 && ((i >= 5 && i <= 6) || (i >= 12 && i <= 13)))
+                else if (j == 4 && i >= 5 && i <= 6)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 6 && ((i >= 3 && i <= 4) || (i >= 14 && i <= 15)))
+                else if (j == 6 && i >= 14 && i <= 15)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 7 && ((i >= 1 && i <= 4) || (i >= 14 && i <= 17)))
+                else if (j == 7 && i >= 14 && i <= 17)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 8 && ((i >= 2 && i <= 4) || (i >= 14 && i <= 16)))
+                else if (j == 8 && i >= 14 && i <= 16)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 9 && (i == 4 || i == 14))
+                else if (j == 9 &&  i == 14)
                     tempBoard[i][j] = new WinningField(i,j);
                 else if (j == 10 && (i == 5 || i == 13))
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 11 && ((i >= 5 && i <= 7) || (i >= 11 && i <= 13)))
+                else if (j == 11 && i >= 5 && i <= 7)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 12 && ((i >= 5 && i <= 8) || (i >= 10 && i <= 13)))
+                else if (j == 12 && i >= 5 && i <= 8)
                     tempBoard[i][j] = new WinningField(i,j);
-                else if (j == 13 && ((i >= 5 && i <= 6) || (i >= 12 && i <= 13)))
+                else if (j == 13 && i >= 5 && i <= 6)
                     tempBoard[i][j] = new WinningField(i,j);
                 else
                     tempBoard[i][j] = new InaccessibleField(i,j);
