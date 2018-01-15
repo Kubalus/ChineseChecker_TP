@@ -30,6 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/*
+ *  TODO: Finish implementing movement
+ *  TODO: Write startTurn()
+ */
 public class Controller implements Initializable
 {
     private Game game;
@@ -199,6 +203,7 @@ public class Controller implements Initializable
         }
     }
 
+
     // Probably will have to add coordinates to arguments
     private void pawnClicked(Circle circle, int x, int y)
     {
@@ -213,13 +218,24 @@ public class Controller implements Initializable
             // Set effect for this pawn
             Lighting lighting = new Lighting();
             circle.setEffect(lighting);
-            System.out.println(game.getBoard().getField(x, y).getPawn().getOwner()+" "+game.getPlayers()[playerNum]);
         }
     }
 
-    public void unlock(int playerNum)
+    public void setPlayerNum(int playerNum)
     {
         this.playerNum = playerNum;
+    }
+
+    public void movePawn(int x1, int y1, int x2, int y2)
+    {
+        Pawn pawnTemp = game.getBoard().getField(x1, y1).getPawn();
+        game.getBoard().getField(x1, y1).setPawn(null);
+        game.getBoard().getField(x2, y2).setPawn(pawnTemp);
+        refresh();
+    }
+
+    public void startTurn()
+    {
         mainPane.setDisable(false);
     }
 
@@ -278,6 +294,7 @@ public class Controller implements Initializable
         if(!boardGrid.getChildren().isEmpty())
         {
             refresh();
+            mainPane.setDisable(true);
         }
     }
 

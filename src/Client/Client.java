@@ -10,7 +10,6 @@ public class Client extends Thread
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
     private String messageIn="";
-    private int playerNum;
     private Controller controller;
 
     Client(Controller controller)
@@ -68,10 +67,17 @@ public class Client extends Thread
     private void getMessage(String message)
     {
         String temp[] = message.split(" ");
-        if(temp[0].equals("I"))
+        if(temp[0].equals("I")) // For initializing
         {
-            playerNum = Integer.parseInt(temp[1]);
-            controller.unlock(Integer.parseInt(temp[1]));
+            controller.setPlayerNum(Integer.parseInt(temp[1]));
+        }
+        else if(temp[0].equals("T")) // For starting turn
+        {
+            controller.startTurn();
+        }
+        else if(temp[0].equals("M")) // For other players movement
+        {
+            controller.movePawn(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
         }
     }
 }
