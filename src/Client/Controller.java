@@ -11,8 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -27,12 +31,9 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable
 {
-
+    Game game;
     Client client;
-    Board gameBoard;
-    GameDirector director;
-    GameBuilder builder;
-    List<Circle> pawns = new ArrayList();
+    List<Circle> pawnsGUI = new ArrayList();
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -68,7 +69,7 @@ public class Controller implements Initializable
         {
             for(int j = 0; j <= 14; j++)
             {
-                if(gameBoard.getField(i, j).getClass() == AccessibleField.class)
+                if(game.getBoard().getField(i, j).getClass() == AccessibleField.class)
                 {
                     if(i % 2 == 1)
                     {
@@ -79,7 +80,7 @@ public class Controller implements Initializable
                         boardFill(i, j, true);
                     }
                 }
-                else if(gameBoard.getField(i, j).getClass() == WinningField.class)
+                else if(game.getBoard().getField(i, j).getClass() == WinningField.class)
                 {
                     if(i % 2 == 1)
                     {
@@ -92,6 +93,8 @@ public class Controller implements Initializable
                 }
             }
         }
+
+        fillPawns();
     }
 
     // Filling board with proper colored pawns and fields
@@ -108,11 +111,11 @@ public class Controller implements Initializable
             poly.translateYProperty().set(-23);
         }
 
-        if(gameBoard.getField(i, j).getClass() == WinningField.class)
+        if(game.getBoard().getField(i, j).getClass() == WinningField.class)
         {
-            for(int var = 0; var < 6; var++)
+            for(int var = 0; var < game.getPlayers().length; var++)
             {
-                if(gameBoard.getField(i, j).getOwner().equals(builder.players[var]))
+                if(game.getBoard().getField(i, j).getOwner().equals(game.getPlayers()[var]))
                 {
                     switch (var) {
                         case 0:
@@ -144,49 +147,49 @@ public class Controller implements Initializable
 
         poly.setStroke(Paint.valueOf("BLACK"));
         boardGrid.add(poly, i, j);
+    }
 
-        if(gameBoard.getField(i, j).getPawn()!= null)
+    private void fillPawns()
+    {
+        for(int i = 0; i < game.getPlayers().length ; i++)
         {
+            for(int j = 0; j < 10; j++)
+            {
+                int x = game.getPlayers()[i].getPawns().get(j).getCoordinateX();
+                int y = game.getPlayers()[i].getPawns().get(j).getCoordinateY();
 
-            Circle circle = new Circle(15);
-            if(shifted)
-            {
-                circle.translateYProperty().set(-23);
-            }
-            circle.translateXProperty().set(14);
-            pawns.add(circle);
-            circle.setOnMouseClicked(event -> pawnClicked(circle));
-            for(int var = 0; var < 6; var++)
-            {
-                //if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var])
-                if (gameBoard.getField(i, j).getPawn().getOwner().equals(builder.players[var])) {
-                    switch (var) {
-                        case 0:
-                            circle.setFill(Paint.valueOf("RED"));
-                            break;
-                        case 1:
-                            circle.setFill(Paint.valueOf("BLUE"));
-                            break;
-                        case 2:
-                            circle.setFill(Paint.valueOf("GREEN"));
-                            break;
-                        case 3:
-                            circle.setFill(Paint.valueOf("YELLOW"));
-                            break;
-                        case 4:
-                            circle.setFill(Paint.valueOf("BLACK"));
-                            break;
-                        case 5:
-                            circle.setFill(Paint.valueOf("WHITE"));
-                            break;
-                    }
+                Circle circle = new Circle(15);
+                if(x % 2 != 1)
+                {
+                    circle.translateYProperty().set(-23);
                 }
+                circle.translateXProperty().set(14);
+                pawnsGUI.add(circle);
+                circle.setOnMouseClicked(event -> pawnClicked(circle));
+
+                switch (i) {
+                    case 0:
+                        circle.setFill(Paint.valueOf("RED"));
+                        break;
+                    case 1:
+                        circle.setFill(Paint.valueOf("BLUE"));
+                        break;
+                    case 2:
+                        circle.setFill(Paint.valueOf("GREEN"));
+                        break;
+                    case 3:
+                        circle.setFill(Paint.valueOf("YELLOW"));
+                        break;
+                    case 4:
+                        circle.setFill(Paint.valueOf("BLACK"));
+                        break;
+                    case 5:
+                        circle.setFill(Paint.valueOf("WHITE"));
+                        break;
+                }
+                circle.setStroke(Paint.valueOf("BLACK"));
+                boardGrid.add(circle, x, y);
             }
-
-            circle.setStroke(Paint.valueOf("BLACK"));
-            boardGrid.add(circle, i, j);
-
-
         }
     }
 
@@ -194,41 +197,48 @@ public class Controller implements Initializable
     private void pawnClicked(Circle circle)
     {
         // Clear effects for other pawns
-        for(int i = 0; i < pawns.size(); i++)
+        for(int i = 0; i < pawnsGUI.size(); i++)
         {
-            System.out.println(i);
-            pawns.get(i).setEffect(null);
+            pawnsGUI.get(i).setEffect(null);
         }
 
         // Set effect for this pawn
-        circle.setEffect(new DropShadow());
+        //DropShadow shadow = new DropShadow();
+        //shadow.colorProperty().set(Color.valueOf("BLACK"));
+        Lighting lighting = new Lighting();
+        circle.setEffect(lighting);
     }
 
     @FXML
     public void newGame(ActionEvent e)
     {
+        GameDirector director = new GameDirector();
+        GameBuilder builder;
+
         if(e.getSource().equals(twoPlayers))
         {
+            builder = new CCBoard2P();
             client.sendMessage("I 2");
         }
         else if(e.getSource().equals(threePlayers))
         {
+            builder = new CCBoard3P();
             client.sendMessage("I 3");
         }
         else if(e.getSource().equals(fourPlayers))
         {
+            builder = new CCBoard4P();
             client.sendMessage("I 4");
         }
-        else if(e.getSource().equals(sixPlayers))
+        else
         {
+            builder = new CCBoard6P();
             client.sendMessage("I 6");
         }
 
-        director = new GameDirector();
-        builder = new CCBoard6P();
         director.setBuilder(builder);
         director.createGame();
-        gameBoard = director.getBoard();
+        game = builder.setupGame();
 
         startGame.setDisable(true);
 
@@ -238,7 +248,7 @@ public class Controller implements Initializable
     @FXML // EXIT menu item handler (exits game)
     public void exitHandler()
     {
-        if(client != null)
+        if(client.isAlive())
         {
             client.sendMessage("END");
         }

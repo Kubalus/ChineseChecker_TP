@@ -5,6 +5,7 @@ public class Game {
     private Player[] players;
     private AdjacencyStrategy adjacencyRule;
     private MovingStrategy movingRule;
+    private WinningStrategy winningRule;
 
 
     public void setBoard(Board board) {
@@ -23,7 +24,11 @@ public class Game {
         this.movingRule = movingRule;
     }
 
-    public Board getBoardObject() {
+    public void setWinningRule(WinningStrategy winningRule) {
+        this.winningRule = winningRule;
+    }
+
+    public Board getBoard() {
         return board;
     }
 
@@ -37,5 +42,9 @@ public class Game {
 
     public MovingStrategy getMovingRule() {
         return movingRule;
+    }
+
+    public WinningStrategy getWinningRule() {
+        return winningRule;
     }
 }

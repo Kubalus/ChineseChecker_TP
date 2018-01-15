@@ -7,8 +7,8 @@ public class CCMoving implements MovingStrategy {
 
     @Override
     public ArrayList<Field> possibleMoves(Pawn pawn, Game game) {
-        Field field = game.getBoardObject().getBoard()[pawn.getCoordinateX()][pawn.getCoordinateY()];
-        Field[] adjacentFields = game.getAdjacencyRule().adjacentFields(field,game.getBoardObject().getBoard());
+        Field field = game.getBoard().getBoard()[pawn.getCoordinateX()][pawn.getCoordinateY()];
+        Field[] adjacentFields = game.getAdjacencyRule().adjacentFields(field,game.getBoard().getBoard());
         ArrayList<Field> possibles = new ArrayList<>();
         Field[] tempFieldTable;
         Field temp;
@@ -24,7 +24,7 @@ public class CCMoving implements MovingStrategy {
                 }
                 else {
                     // TODO: handle move after jump
-                    tempFieldTable = game.getAdjacencyRule().adjacentFields(adjacentFields[i],game.getBoardObject().getBoard());
+                    tempFieldTable = game.getAdjacencyRule().adjacentFields(adjacentFields[i],game.getBoard().getBoard());
                     temp = tempFieldTable[i];
                     if (temp.getPawn() == null) {
                         if (temp.getOwner() == pawn.getOwner()) {
@@ -50,7 +50,7 @@ public class CCMoving implements MovingStrategy {
         if(newField.getPawn() != null)
             throw new Exception();
 
-        Field oldField = game.getBoardObject().getField(pawn.getCoordinateX(),pawn.getCoordinateY());
+        Field oldField = game.getBoard().getField(pawn.getCoordinateX(),pawn.getCoordinateY());
         if(oldField.getOwner() != null){
             if((oldField.getOwner() == pawn.getOwner()) && (oldField.getOwner() == newField.getOwner())) {
                 newField.setPawn(pawn);
