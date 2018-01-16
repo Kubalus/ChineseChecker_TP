@@ -12,6 +12,12 @@ public class Pawn{
         this.owner = player;
     }
 
+    public void setCoordinates(int x, int y){
+        this.coordinateX = x;
+        this.coordinateY = y;
+
+    }
+
     public Player getOwner() {
         return owner;
     }
