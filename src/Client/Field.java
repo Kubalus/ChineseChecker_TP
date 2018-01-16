@@ -42,7 +42,6 @@ public abstract class Field
 
     public Pawn getPawn(){
         return null;
-
     }
 }
 

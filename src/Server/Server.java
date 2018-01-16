@@ -70,5 +70,6 @@ public class Server
         {
             room.getPlayers().get(i).sendMessage("I " + i);
         }
+        room.getPlayers().get(0).sendMessage("S");
     }
 }

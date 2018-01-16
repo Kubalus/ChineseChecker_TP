@@ -71,7 +71,7 @@ public class Client extends Thread
         {
             controller.setPlayerNum(Integer.parseInt(temp[1]));
         }
-        else if(temp[0].equals("T")) // For starting turn
+        else if(temp[0].equals("S")) // For starting turn
         {
             controller.startTurn();
         }

@@ -1,23 +1,19 @@
 package Client;
 
+import javafx.application.Platform;
+import javafx.concurrent.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -40,6 +36,8 @@ public class Controller implements Initializable
     private Client client;
     private List<Circle> pawnsGUI = new ArrayList();
     private int playerNum = -1;
+    private int currentX;
+    private int currentY;
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -52,6 +50,7 @@ public class Controller implements Initializable
     @FXML MenuItem exitMI;
     @FXML Button endTurnB;
     @FXML Label redPoints, bluePoints, greenPoints, yellowPoints, blackPoints, whitePoints;
+
 
 
     @Override // Initializer for our GUI Controller
@@ -117,7 +116,7 @@ public class Controller implements Initializable
         {
             poly.translateYProperty().set(-23);
         }
-
+        poly.setOnMouseClicked(e -> fieldClicked(i, j));
         if(game.getBoard().getField(i, j).getClass() == WinningField.class)
         {
             for(int var = 0; var < game.getPlayers().length; var++)
@@ -157,6 +156,19 @@ public class Controller implements Initializable
 
         poly.setStroke(Paint.valueOf("BLACK"));
         boardGrid.add(poly, i, j);
+    }
+
+    private void fieldClicked(int x, int y)
+    {
+        for(int i = 0; i < pawnsGUI.size(); i++)
+        {
+            if (pawnsGUI.get(i).getEffect() != null)
+            {
+                movePawn(currentX, currentY, x, y);
+                client.sendMessage("M "+currentX+" "+currentY+" "+x+" "+y+" "+playerNum);
+                endTurn();
+            }
+        }
     }
 
     private void fillPawns()
@@ -203,8 +215,6 @@ public class Controller implements Initializable
         }
     }
 
-
-    // Probably will have to add coordinates to arguments
     private void pawnClicked(Circle circle, int x, int y)
     {
         if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
@@ -214,11 +224,17 @@ public class Controller implements Initializable
             {
                 pawnsGUI.get(i).setEffect(null);
             }
-
+            currentX = x;
+            currentY = y;
             // Set effect for this pawn
             Lighting lighting = new Lighting();
             circle.setEffect(lighting);
         }
+    }
+
+    public void startTurn()
+    {
+        mainPane.setDisable(false);
     }
 
     public void setPlayerNum(int playerNum)
@@ -231,12 +247,8 @@ public class Controller implements Initializable
         Pawn pawnTemp = game.getBoard().getField(x1, y1).getPawn();
         game.getBoard().getField(x1, y1).setPawn(null);
         game.getBoard().getField(x2, y2).setPawn(pawnTemp);
-        refresh();
-    }
 
-    public void startTurn()
-    {
-        mainPane.setDisable(false);
+        refresh();
     }
 
     @FXML
