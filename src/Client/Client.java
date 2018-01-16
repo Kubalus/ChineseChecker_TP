@@ -1,5 +1,7 @@
 package Client;
 
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.*;
 
@@ -77,7 +79,9 @@ public class Client extends Thread
         }
         else if(temp[0].equals("M")) // For other players movement
         {
-            controller.movePawn(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+            Platform.runLater(() -> {
+                controller.movePawn(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+            });
         }
     }
 }

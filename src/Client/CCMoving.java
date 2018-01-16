@@ -47,8 +47,8 @@ public class CCMoving implements MovingStrategy {
         else {
             Field oldField = game.getBoard().getField(pawn.getCoordinateX(), pawn.getCoordinateY());
             newField.setPawn(pawn);
+            pawn.setCoordinates(newField.getCoordinateX(),newField.getCoordinateY());
             oldField.setPawn(null);
-
         }
     }
 

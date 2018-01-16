@@ -34,7 +34,7 @@ public class Controller implements Initializable
 {
     private Game game;
     private Client client;
-    private List<Circle> pawnsGUI = new ArrayList();
+    private List<Circle> pawnsGUI;
     private int playerNum = -1;
     private int currentX;
     private int currentY;
@@ -69,7 +69,8 @@ public class Controller implements Initializable
     // Refreshing board
     private void refresh()
     {
-        boardGrid.getChildren().clear();
+        System.out.println("1");
+
 
         for(int i = 0; i <= 18; i++)
         {
@@ -99,8 +100,9 @@ public class Controller implements Initializable
                 }
             }
         }
-
+        System.out.println("2");
         fillPawns();
+        System.out.println("3");
     }
 
     // Filling board with proper colored pawns and fields
@@ -173,6 +175,7 @@ public class Controller implements Initializable
 
     private void fillPawns()
     {
+        pawnsGUI = new ArrayList();
         for(int i = 0; i < game.getPlayers().length ; i++)
         {
             for(int j = 0; j < 10; j++)
@@ -244,9 +247,14 @@ public class Controller implements Initializable
 
     public void movePawn(int x1, int y1, int x2, int y2)
     {
-        Pawn pawnTemp = game.getBoard().getField(x1, y1).getPawn();
-        game.getBoard().getField(x1, y1).setPawn(null);
-        game.getBoard().getField(x2, y2).setPawn(pawnTemp);
+        try
+        {
+            game.getMovingRule().movePawn(game.getBoard().getField(x1, y1).getPawn(), game.getBoard().getField(x2, y2), game);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         refresh();
     }
