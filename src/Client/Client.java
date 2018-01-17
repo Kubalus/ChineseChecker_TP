@@ -69,7 +69,11 @@ public class Client extends Thread
     private void getMessage(String message)
     {
         String temp[] = message.split(" ");
-        if(temp[0].equals("I")) // For initializing
+        if(controller.win)
+        {
+            sendMessage("P "+controller.playerNum);
+        }
+        else if(temp[0].equals("I")) // For initializing
         {
             controller.setPlayerNum(Integer.parseInt(temp[1]));
         }

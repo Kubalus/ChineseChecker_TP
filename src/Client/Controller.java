@@ -35,11 +35,12 @@ public class Controller implements Initializable
     private Game game;
     private Client client;
     private List<Circle> pawnsGUI;
-    private int playerNum = -1;
     private int currentX;
     private int currentY;
-    ArrayList<Field> possibleMoves;
-    ArrayList<Polygon> highlights = new ArrayList<>();
+    private ArrayList<Field> possibleMoves;
+    private ArrayList<Polygon> highlights = new ArrayList<>();
+    public boolean win = false;
+    public int playerNum = -1;
 
 
     @FXML MenuItem twoPlayers;
@@ -72,9 +73,6 @@ public class Controller implements Initializable
     // Refreshing board
     private void refresh()
     {
-        System.out.println("1");
-
-
         for(int i = 0; i <= 18; i++)
         {
             for(int j = 0; j <= 14; j++)
@@ -103,9 +101,7 @@ public class Controller implements Initializable
                 }
             }
         }
-        System.out.println("2");
         fillPawns();
-        System.out.println("3");
     }
 
     // Filling board with proper colored pawns and fields
@@ -329,6 +325,8 @@ public class Controller implements Initializable
         }
 
         refresh();
+
+
     }
 
     @FXML
@@ -378,14 +376,32 @@ public class Controller implements Initializable
         System.exit(0);
     }
 
-    @FXML // END TURN button handler (increments all score values)
+    @FXML // END TURN button handler
     public void endTurn()
     {
-        System.out.println("Turn passed... \n");
 
-        client.sendMessage("P "+playerNum);
+
+        for(int i = 0; i < pawnsGUI.size(); i++)
+        {
+            if (pawnsGUI.get(i).getEffect() != null)
+            {
+                break;
+            }
+            else
+            {
+                client.sendMessage("P " + playerNum);
+                break;
+            }
+        }
+
+        if(game.getWinningRule().checkWinning(game.getPlayers()[playerNum], game))
+        {
+            System.out.println("Winner, winner chicken dinner!");
+            win = true;
+        }
 
         mainPane.setDisable(true);
+        System.out.println("Turn passed... \n");
     }
 
     @FXML // RULES manu item handler (creates dialog window with rules)
