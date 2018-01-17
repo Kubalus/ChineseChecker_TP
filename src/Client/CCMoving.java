@@ -16,7 +16,7 @@ public class CCMoving implements MovingStrategy {
             if(adjacentFields[i] instanceof AccessibleField) {
 
                if (adjacentFields[i].getPawn() == null) {
-                    if((adjacentFields[i].getOwner() != pawn.getOwner()))
+                    if((field.getOwner() != pawn.getOwner()))
                      possibles.add(adjacentFields[i]);
 
                     else if (pawn.getOwner() == field.getOwner() && adjacentFields[i].getOwner() == pawn.getOwner())
@@ -27,7 +27,7 @@ public class CCMoving implements MovingStrategy {
                    temp = tempFieldTable[i];
                    if( temp instanceof AccessibleField){
                        if (temp.getPawn() == null) {
-                            if ((temp.getOwner() != pawn.getOwner())) {
+                            if ((field.getOwner() != pawn.getOwner())) {
                                 possibles.add(temp);
                             }
                             else if(pawn.getOwner() == field.getOwner() && temp.getOwner() == pawn.getOwner()) {
