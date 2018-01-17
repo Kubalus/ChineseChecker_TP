@@ -16,20 +16,24 @@ public class CCMoving implements MovingStrategy {
             if(adjacentFields[i] instanceof AccessibleField) {
 
                if (adjacentFields[i].getPawn() == null) {
-                    if((adjacentFields[i].getOwner() != pawn.getOwner()) ||
-                            (pawn.getOwner() == field.getOwner() && adjacentFields[i].getOwner() == pawn.getOwner())){
+                    if((adjacentFields[i].getOwner() != pawn.getOwner()))
                      possibles.add(adjacentFields[i]);
-                    }
+
+                    else if (pawn.getOwner() == field.getOwner() && adjacentFields[i].getOwner() == pawn.getOwner())
+                        possibles.add(adjacentFields[i]);
                 }
                else {
                    tempFieldTable = game.getAdjacencyRule().adjacentFields(adjacentFields[i],game.getBoard().getBoard());
                    temp = tempFieldTable[i];
                    if( temp instanceof AccessibleField){
                        if (temp.getPawn() == null) {
-                            if ((temp.getOwner() != pawn.getOwner())
-                                    || (pawn.getOwner() == field.getOwner() && temp.getOwner() == pawn.getOwner())) {
+                            if ((temp.getOwner() != pawn.getOwner())) {
                                 possibles.add(temp);
-                       }
+                            }
+                            else if(pawn.getOwner() == field.getOwner() && temp.getOwner() == pawn.getOwner()) {
+                               possibles.add(temp);
+                           }
+
                       }
                    }
                 }
