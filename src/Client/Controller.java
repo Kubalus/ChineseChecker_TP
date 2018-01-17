@@ -69,26 +69,7 @@ public class Controller implements Initializable
     }
 
 
-    public void highlight(ArrayList<Field> arr)
-    {
-        for(int i = 0; i < arr.size(); i++)
-        {
-            int x = arr.get(i).getCoordinateX();
-            int y = arr.get(i).getCoordinateY();
 
-            Circle temp = new Circle(10);
-
-            if(x % 2 == 1)
-            {
-                temp.translateYProperty().set(-23);
-            }
-
-            temp.setFill(Paint.valueOf("#ff00ff"));
-            temp.setEffect(new BoxBlur());
-
-            boardGrid.add(temp, x, y);
-        }
-    }
 
 
     // Refreshing board
@@ -203,6 +184,30 @@ public class Controller implements Initializable
         }
     }
 
+    public void highlight(ArrayList<Field> arr)
+    {
+        for(int i = 0; i < arr.size(); i++)
+        {
+            int x = arr.get(i).getCoordinateX();
+            int y = arr.get(i).getCoordinateY();
+
+            Circle temp = new Circle(15);
+            temp.translateXProperty().set(14);
+            temp.translateYProperty().set(20);
+            temp.setDisable(true);
+
+            if(x % 2 == 1)
+            {
+                temp.translateYProperty().set(-3);
+            }
+
+            temp.setFill(Paint.valueOf("#ff00ff"));
+            temp.setEffect(new BoxBlur());
+
+            boardGrid.add(temp, x, y);
+        }
+    }
+
     private void fillPawns()
     {
         pawnsGUI = new ArrayList();
@@ -254,7 +259,6 @@ public class Controller implements Initializable
         if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
         {
             // Clear effects for other pawns
-            refresh();
             for(int i = 0; i < pawnsGUI.size(); i++)
             {
                 pawnsGUI.get(i).setEffect(null);
@@ -267,7 +271,9 @@ public class Controller implements Initializable
             circle.setEffect(lighting);
             possibleMoves = game.getMovingRule().possibleMoves(
                     game.getBoard().getField(currentX, currentY).getPawn(), game);
+
             highlight(possibleMoves);
+            //refresh();
         }
     }
 
