@@ -72,5 +72,9 @@ public class ServerThread extends Thread
             room.sendToPlayers(message, Integer.parseInt(split[5]));
             room.getPlayers().get((Integer.parseInt(split[5]) + 1)%room.limit).sendMessage("S");
         }
+        else if(split[0].equals("P"))
+        {
+            room.getPlayers().get((Integer.parseInt(split[1]) + 1)%room.limit).sendMessage("S");
+        }
     }
 }

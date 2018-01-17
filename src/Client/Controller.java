@@ -383,11 +383,9 @@ public class Controller implements Initializable
     {
         System.out.println("Turn passed... \n");
 
-        if(!boardGrid.getChildren().isEmpty())
-        {
-            refresh();
-            mainPane.setDisable(true);
-        }
+        client.sendMessage("P "+playerNum);
+
+        mainPane.setDisable(true);
     }
 
     @FXML // RULES manu item handler (creates dialog window with rules)
