@@ -3,12 +3,10 @@ package Client;
 import java.util.*;
 
 public class Bot extends Player {
-    private Random random;
     private ArrayList<Pawn> notWinningPawns;
 
     public Bot(){
         super();
-        random = new Random();
     }
 
     public void initializeBot(){
