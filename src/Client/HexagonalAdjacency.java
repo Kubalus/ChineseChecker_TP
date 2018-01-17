@@ -9,7 +9,7 @@ public class HexagonalAdjacency implements AdjacencyStrategy {
         Field[] adjacent = new Field[6];
         adjacent[0] = board[x][y-1];
         adjacent[3] = board[x][y+1];
-        if (x % 2 == 0){
+        if (x % 2 == 1){
             adjacent[1] = board[x+1][y-1];
             adjacent[2] = board[x+1][y];
             adjacent[4] = board[x-1][y];
