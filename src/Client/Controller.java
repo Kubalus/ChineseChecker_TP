@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +39,7 @@ public class Controller implements Initializable
     private int playerNum = -1;
     private int currentX;
     private int currentY;
+    ArrayList<Field> possibleMoves;
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -65,6 +67,29 @@ public class Controller implements Initializable
         client = new Client(this);
         client.start();
     }
+
+
+    public void highlight(ArrayList<Field> arr)
+    {
+        for(int i = 0; i < arr.size(); i++)
+        {
+            int x = arr.get(i).getCoordinateX();
+            int y = arr.get(i).getCoordinateY();
+
+            Circle temp = new Circle(10);
+
+            if(x % 2 == 1)
+            {
+                temp.translateYProperty().set(-23);
+            }
+
+            temp.setFill(Paint.valueOf("#ff00ff"));
+            temp.setEffect(new BoxBlur());
+
+            boardGrid.add(temp, x, y);
+        }
+    }
+
 
     // Refreshing board
     private void refresh()
@@ -162,13 +187,18 @@ public class Controller implements Initializable
 
     private void fieldClicked(int x, int y)
     {
+
+
+
         for(int i = 0; i < pawnsGUI.size(); i++)
         {
             if (pawnsGUI.get(i).getEffect() != null)
             {
-                movePawn(currentX, currentY, x, y);
-                client.sendMessage("M "+currentX+" "+currentY+" "+x+" "+y+" "+playerNum);
-                endTurn();
+                if(possibleMoves.contains(game.getBoard().getField(x,y))) {
+                    movePawn(currentX, currentY, x, y);
+                    client.sendMessage("M " + currentX + " " + currentY + " " + x + " " + y + " " + playerNum);
+                    endTurn();
+                }
             }
         }
     }
@@ -220,18 +250,24 @@ public class Controller implements Initializable
 
     private void pawnClicked(Circle circle, int x, int y)
     {
+
         if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
         {
             // Clear effects for other pawns
+            refresh();
             for(int i = 0; i < pawnsGUI.size(); i++)
             {
                 pawnsGUI.get(i).setEffect(null);
             }
             currentX = x;
             currentY = y;
+
             // Set effect for this pawn
             Lighting lighting = new Lighting();
             circle.setEffect(lighting);
+            possibleMoves = game.getMovingRule().possibleMoves(
+                    game.getBoard().getField(currentX, currentY).getPawn(), game);
+            highlight(possibleMoves);
         }
     }
 
