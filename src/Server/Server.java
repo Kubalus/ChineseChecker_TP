@@ -5,13 +5,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Server
 {
-    static final int PORT = 1201;
-    ServerSocket serverSocket = null;
-    Socket socket = null;
-    List<Room> rooms = new ArrayList<>();
+    static private final int PORT = 1201;
+    private ServerSocket serverSocket = null;
+    private Socket socket = null;
+    private List<Room> rooms = new ArrayList<>();
+    private Random rand = new Random();
 
     Server()
     {
@@ -70,6 +72,6 @@ public class Server
         {
             room.getPlayers().get(i).sendMessage("I " + i);
         }
-        room.getPlayers().get(0).sendMessage("S");
+        room.getPlayers().get(rand.nextInt(room.limit)).sendMessage("S");
     }
 }
