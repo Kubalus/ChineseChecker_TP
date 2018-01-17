@@ -1,5 +1,6 @@
 package Client;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
@@ -39,6 +40,7 @@ public class Controller implements Initializable
     private int currentY;
     ArrayList<Field> possibleMoves;
     ArrayList<Polygon> highlights = new ArrayList<>();
+
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -291,7 +293,29 @@ public class Controller implements Initializable
     public void setPlayerNum(int playerNum)
     {
         this.playerNum = playerNum;
+
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/ColorPopup.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ColorPopupController tempController = fxmlLoader.getController();
+            tempController.setColor(playerNum);
+
+            Stage authorsDialog = new Stage();
+            authorsDialog.setTitle("Color");
+            authorsDialog.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
+            authorsDialog.initModality(Modality.APPLICATION_MODAL);
+            authorsDialog.setScene(new Scene(root));
+            authorsDialog.setResizable(false);
+            authorsDialog.show();
+        });
     }
+
 
     public void movePawn(int x1, int y1, int x2, int y2)
     {
