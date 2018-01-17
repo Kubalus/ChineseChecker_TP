@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -67,10 +68,6 @@ public class Controller implements Initializable
         client = new Client(this);
         client.start();
     }
-
-
-
-
 
     // Refreshing board
     private void refresh()
@@ -168,9 +165,6 @@ public class Controller implements Initializable
 
     private void fieldClicked(int x, int y)
     {
-
-
-
         for(int i = 0; i < pawnsGUI.size(); i++)
         {
             if (pawnsGUI.get(i).getEffect() != null)
@@ -191,18 +185,26 @@ public class Controller implements Initializable
             int x = arr.get(i).getCoordinateX();
             int y = arr.get(i).getCoordinateY();
 
-            Circle temp = new Circle(15);
-            temp.translateXProperty().set(14);
-            temp.translateYProperty().set(20);
+            Polygon temp = new Polygon(20*(1), 20*(0),
+                    20*(0.5), 20*(0.86602540378),
+                    20*(-0.5), 20*(0.86602540378),
+                    20*(-1), 20*(0),
+                    20*(-0.5), 20*(-0.86602540378),
+                    20*(0.5), 20*(-0.86602540378));
+            temp.translateXProperty().set(9);
+            temp.translateYProperty().set(-23);
             temp.setDisable(true);
 
             if(x % 2 == 1)
             {
-                temp.translateYProperty().set(-3);
+                temp.translateYProperty().set(0);
             }
 
             temp.setFill(Paint.valueOf("#ff00ff"));
-            temp.setEffect(new BoxBlur());
+            BoxBlur blur = new BoxBlur();
+            blur.setIterations(5);
+            temp.opacityProperty().set(0.7);
+            temp.setEffect(blur);
 
             boardGrid.add(temp, x, y);
         }
