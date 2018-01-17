@@ -89,9 +89,7 @@ public class Client extends Thread
         }
         else if(temp[0].equals("W")) // For other players movement
         {
-            Platform.runLater(() -> {
-                controller.winningPopup(Integer.parseInt(temp[1]));
-            });
+            controller.winningPopup(Integer.parseInt(temp[1]));
         }
     }
 }

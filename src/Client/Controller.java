@@ -53,8 +53,6 @@ public class Controller implements Initializable
     @FXML GridPane boardGrid;
     @FXML MenuItem exitMI;
     @FXML Button endTurnB;
-    @FXML Label redPoints, bluePoints, greenPoints, yellowPoints, blackPoints, whitePoints;
-
 
 
     @Override // Initializer for our GUI Controller
