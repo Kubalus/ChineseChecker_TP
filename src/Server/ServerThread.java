@@ -76,5 +76,10 @@ public class ServerThread extends Thread
         {
             room.getPlayers().get((Integer.parseInt(split[1]) + 1)%room.limit).sendMessage("S");
         }
+        else if(split[0].equals("W"))
+        {
+            room.place++;
+            sendMessage("W "+room.place);
+        }
     }
 }

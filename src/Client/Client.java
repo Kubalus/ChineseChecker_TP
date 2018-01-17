@@ -87,5 +87,11 @@ public class Client extends Thread
                 controller.movePawn(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
             });
         }
+        else if(temp[0].equals("W")) // For other players movement
+        {
+            Platform.runLater(() -> {
+                controller.winningPopup(Integer.parseInt(temp[1]));
+            });
+        }
     }
 }

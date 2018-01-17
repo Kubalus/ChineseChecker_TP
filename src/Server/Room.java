@@ -8,6 +8,7 @@ public class Room
     private Server server;
     private List<ServerThread> players;
     int limit;
+    int place = 0;
 
     Room(Server server, int i)
     {

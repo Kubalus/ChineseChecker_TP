@@ -283,7 +283,10 @@ public class Controller implements Initializable
 
     public void startTurn()
     {
-        mainPane.setDisable(false);
+        Platform.runLater(() -> {
+            mainPane.setDisable(false);
+            refresh();
+        });
     }
 
     public void setPlayerNum(int playerNum)
@@ -323,10 +326,6 @@ public class Controller implements Initializable
         {
             e.printStackTrace();
         }
-
-        refresh();
-
-
     }
 
     @FXML
@@ -379,8 +378,6 @@ public class Controller implements Initializable
     @FXML // END TURN button handler
     public void endTurn()
     {
-
-
         for(int i = 0; i < pawnsGUI.size(); i++)
         {
             if (pawnsGUI.get(i).getEffect() != null)
@@ -394,10 +391,13 @@ public class Controller implements Initializable
             }
         }
 
+        refresh();
+
         if(game.getWinningRule().checkWinning(game.getPlayers()[playerNum], game))
         {
             System.out.println("Winner, winner chicken dinner!");
             win = true;
+            client.sendMessage("W");
         }
 
         mainPane.setDisable(true);
@@ -448,5 +448,29 @@ public class Controller implements Initializable
         authorsDialog.setScene(new Scene(root));
         authorsDialog.setResizable(false);
         authorsDialog.show();
+    }
+
+    public void winningPopup(int place)
+    {
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Win.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            WinController winController = fxmlLoader.getController();
+            winController.ini(place);
+
+            Stage authorsDialog = new Stage();
+            authorsDialog.setTitle("Win");
+            authorsDialog.getIcons().add(new Image(getClass().getResourceAsStream("icon.jpg")));
+            authorsDialog.initModality(Modality.APPLICATION_MODAL);
+            authorsDialog.setScene(new Scene(root));
+            authorsDialog.setResizable(false);
+            authorsDialog.show();
+        });
     }
 }
