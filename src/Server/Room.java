@@ -35,11 +35,14 @@ public class Room
         return players;
     }
 
-    public void sendToPlayers(String message)
+    public void sendToPlayers(String message, int exclude)
     {
         for(int i = 0; i < players.size(); i++)
         {
-            players.get(i).sendMessage(message);
+            if(i != exclude)
+            {
+                players.get(i).sendMessage(message);
+            }
         }
     }
 }

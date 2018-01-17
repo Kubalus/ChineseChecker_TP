@@ -1,17 +1,17 @@
 package Client;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -25,14 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/*
+ *  TODO: Finish implementing movement
+ *  TODO: Write startTurn()
+ */
 public class Controller implements Initializable
 {
-
-    Client client;
-    Board gameBoard;
-    GameDirector director;
-    GameBuilder builder;
-    List<Circle> pawns = new ArrayList();
+    private Game game;
+    private Client client;
+    private List<Circle> pawnsGUI;
+    private int playerNum = -1;
+    private int currentX;
+    private int currentY;
+    ArrayList<Field> possibleMoves;
+    ArrayList<Polygon> highlights = new ArrayList<>();
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -40,10 +46,12 @@ public class Controller implements Initializable
     @FXML MenuItem sixPlayers;
     @FXML MenuItem startGame;
 
+    @FXML AnchorPane mainPane;
     @FXML GridPane boardGrid;
     @FXML MenuItem exitMI;
     @FXML Button endTurnB;
     @FXML Label redPoints, bluePoints, greenPoints, yellowPoints, blackPoints, whitePoints;
+
 
 
     @Override // Initializer for our GUI Controller
@@ -55,20 +63,21 @@ public class Controller implements Initializable
 
     public void connectToServer()
     {
-        client = new Client();
+        client = new Client(this);
         client.start();
     }
 
     // Refreshing board
     private void refresh()
     {
-        boardGrid.getChildren().clear();
+        System.out.println("1");
+
 
         for(int i = 0; i <= 18; i++)
         {
             for(int j = 0; j <= 14; j++)
             {
-                if(gameBoard.getField(i, j).getClass() == AccessibleField.class)
+                if(game.getBoard().getField(i, j).getClass() == AccessibleField.class)
                 {
                     if(i % 2 == 1)
                     {
@@ -79,7 +88,7 @@ public class Controller implements Initializable
                         boardFill(i, j, true);
                     }
                 }
-                else if(gameBoard.getField(i, j).getClass() == WinningField.class)
+                else if(game.getBoard().getField(i, j).getClass() == WinningField.class)
                 {
                     if(i % 2 == 1)
                     {
@@ -92,6 +101,9 @@ public class Controller implements Initializable
                 }
             }
         }
+        System.out.println("2");
+        fillPawns();
+        System.out.println("3");
     }
 
     // Filling board with proper colored pawns and fields
@@ -107,12 +119,13 @@ public class Controller implements Initializable
         {
             poly.translateYProperty().set(-23);
         }
-
-        if(gameBoard.getField(i, j).getClass() == WinningField.class)
+        poly.setOnMouseClicked(e -> fieldClicked(i, j));
+        if(game.getBoard().getField(i, j).getClass() == WinningField.class)
         {
-            for(int var = 0; var < 6; var++)
+            for(int var = 0; var < game.getPlayers().length; var++)
             {
-                if(gameBoard.getField(i, j).getOwner().equals(builder.players[var]))
+                if(game.getBoard().getField(i, j).getOwner() != null){
+                    if(game.getBoard().getField(i, j).getOwner().equals(game.getPlayers()[var]))
                 {
                     switch (var) {
                         case 0:
@@ -133,6 +146,8 @@ public class Controller implements Initializable
                         case 5:
                             poly.setFill(Paint.valueOf("WHITE"));
                             break;
+
+                        }
                     }
                 }
             }
@@ -144,93 +159,187 @@ public class Controller implements Initializable
 
         poly.setStroke(Paint.valueOf("BLACK"));
         boardGrid.add(poly, i, j);
+    }
 
-        if(gameBoard.getField(i, j).getPawn()!= null)
+    private void fieldClicked(int x, int y)
+    {
+        for(int i = 0; i < pawnsGUI.size(); i++)
         {
-
-            Circle circle = new Circle(15);
-            if(shifted)
+            if (pawnsGUI.get(i).getEffect() != null)
             {
-                circle.translateYProperty().set(-23);
-            }
-            circle.translateXProperty().set(14);
-            pawns.add(circle);
-            circle.setOnMouseClicked(event -> pawnClicked(circle));
-            for(int var = 0; var < 6; var++)
-            {
-                //if (gameBoard.getField(i, j).pawn.owner.equals(builder.players[var])
-                if (gameBoard.getField(i, j).getPawn().getOwner().equals(builder.players[var])) {
-                    switch (var) {
-                        case 0:
-                            circle.setFill(Paint.valueOf("RED"));
-                            break;
-                        case 1:
-                            circle.setFill(Paint.valueOf("BLUE"));
-                            break;
-                        case 2:
-                            circle.setFill(Paint.valueOf("GREEN"));
-                            break;
-                        case 3:
-                            circle.setFill(Paint.valueOf("YELLOW"));
-                            break;
-                        case 4:
-                            circle.setFill(Paint.valueOf("BLACK"));
-                            break;
-                        case 5:
-                            circle.setFill(Paint.valueOf("WHITE"));
-                            break;
-                    }
+                if(possibleMoves.contains(game.getBoard().getField(x,y))) {
+                    movePawn(currentX, currentY, x, y);
+                    client.sendMessage("M " + currentX + " " + currentY + " " + x + " " + y + " " + playerNum);
+                    endTurn();
                 }
             }
-
-            circle.setStroke(Paint.valueOf("BLACK"));
-            boardGrid.add(circle, i, j);
-
-
         }
     }
 
-    // Probably will have to add coordinates to arguments
-    private void pawnClicked(Circle circle)
+    public void highlight(ArrayList<Field> arr)
     {
-        // Clear effects for other pawns
-        for(int i = 0; i < pawns.size(); i++)
+        highlights = new ArrayList<>();
+        for(int i = 0; i < arr.size(); i++)
         {
-            System.out.println(i);
-            pawns.get(i).setEffect(null);
+            int x = arr.get(i).getCoordinateX();
+            int y = arr.get(i).getCoordinateY();
+
+            Polygon temp = new Polygon(20*(1), 20*(0),
+                    20*(0.5), 20*(0.86602540378),
+                    20*(-0.5), 20*(0.86602540378),
+                    20*(-1), 20*(0),
+                    20*(-0.5), 20*(-0.86602540378),
+                    20*(0.5), 20*(-0.86602540378));
+            temp.translateXProperty().set(9);
+            temp.translateYProperty().set(-23);
+            temp.setMouseTransparent(true);
+
+            if(x % 2 == 1)
+            {
+                temp.translateYProperty().set(0);
+            }
+
+            temp.setFill(Paint.valueOf("#ff00ff"));
+            BoxBlur blur = new BoxBlur();
+            blur.setIterations(5);
+            temp.opacityProperty().set(0.7);
+            temp.setEffect(blur);
+
+            highlights.add(temp);
+            boardGrid.add(temp, x, y);
+        }
+    }
+
+    private void fillPawns()
+    {
+        pawnsGUI = new ArrayList();
+        for(int i = 0; i < game.getPlayers().length ; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                int x = game.getPlayers()[i].getPawns().get(j).getCoordinateX();
+                int y = game.getPlayers()[i].getPawns().get(j).getCoordinateY();
+
+                Circle circle = new Circle(15);
+                if(x % 2 != 1)
+                {
+                    circle.translateYProperty().set(-23);
+                }
+                circle.translateXProperty().set(14);
+                pawnsGUI.add(circle);
+                circle.setOnMouseClicked(event -> pawnClicked(circle, x, y));
+
+                switch (i) {
+                    case 0:
+                        circle.setFill(Paint.valueOf("RED"));
+                        break;
+                    case 1:
+                        circle.setFill(Paint.valueOf("BLUE"));
+                        break;
+                    case 2:
+                        circle.setFill(Paint.valueOf("GREEN"));
+                        break;
+                    case 3:
+                        circle.setFill(Paint.valueOf("YELLOW"));
+                        break;
+                    case 4:
+                        circle.setFill(Paint.valueOf("BLACK"));
+                        break;
+                    case 5:
+                        circle.setFill(Paint.valueOf("WHITE"));
+                        break;
+                }
+                circle.setStroke(Paint.valueOf("BLACK"));
+                boardGrid.add(circle, x, y);
+            }
+        }
+    }
+
+    private void pawnClicked(Circle circle, int x, int y)
+    {
+        if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
+        {
+            // Clear effects for other pawns
+            for(int i = 0; i < pawnsGUI.size(); i++)
+            {
+                pawnsGUI.get(i).setEffect(null);
+            }
+
+            for(int i = 0; i < highlights.size(); i++)
+            {
+                boardGrid.getChildren().remove(highlights.get(i));
+            }
+
+            currentX = x;
+            currentY = y;
+
+            // Set effect for this pawn
+            Lighting lighting = new Lighting();
+            circle.setEffect(lighting);
+            possibleMoves = game.getMovingRule().possibleMoves(
+                    game.getBoard().getField(currentX, currentY).getPawn(), game);
+
+            highlight(possibleMoves);
+        }
+    }
+
+    public void startTurn()
+    {
+        mainPane.setDisable(false);
+    }
+
+    public void setPlayerNum(int playerNum)
+    {
+        this.playerNum = playerNum;
+    }
+
+    public void movePawn(int x1, int y1, int x2, int y2)
+    {
+        try
+        {
+            game.getMovingRule().movePawn(game.getBoard().getField(x1, y1).getPawn(), game.getBoard().getField(x2, y2), game);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
-        // Set effect for this pawn
-        circle.setEffect(new DropShadow());
+        refresh();
     }
 
     @FXML
     public void newGame(ActionEvent e)
     {
+        GameDirector director = new GameDirector();
+        GameBuilder builder;
+
         if(e.getSource().equals(twoPlayers))
         {
+            builder = new CCBoard2P();
             client.sendMessage("I 2");
         }
         else if(e.getSource().equals(threePlayers))
         {
+            builder = new CCBoard3P();
             client.sendMessage("I 3");
         }
         else if(e.getSource().equals(fourPlayers))
         {
+            builder = new CCBoard4P();
             client.sendMessage("I 4");
         }
-        else if(e.getSource().equals(sixPlayers))
+        else
         {
+            builder = new CCBoard6P();
             client.sendMessage("I 6");
         }
 
-        director = new GameDirector();
-        builder = new CCBoard6P();
         director.setBuilder(builder);
         director.createGame();
-        gameBoard = director.getBoard();
+        game = builder.setupGame();
 
         startGame.setDisable(true);
+        mainPane.setDisable(true);
 
         refresh();
     }
@@ -238,7 +347,7 @@ public class Controller implements Initializable
     @FXML // EXIT menu item handler (exits game)
     public void exitHandler()
     {
-        if(client != null)
+        if(client.isAlive())
         {
             client.sendMessage("END");
         }
@@ -253,6 +362,7 @@ public class Controller implements Initializable
         if(!boardGrid.getChildren().isEmpty())
         {
             refresh();
+            mainPane.setDisable(true);
         }
     }
 

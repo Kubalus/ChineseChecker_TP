@@ -69,7 +69,8 @@ public class ServerThread extends Thread
         }
         else if(split[0].equals("M"))
         {
-            room.sendToPlayers(message);
+            room.sendToPlayers(message, Integer.parseInt(split[5]));
+            room.getPlayers().get((Integer.parseInt(split[5]) + 1)%room.limit).sendMessage("S");
         }
     }
 }

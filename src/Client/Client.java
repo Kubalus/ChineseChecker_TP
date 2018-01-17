@@ -1,5 +1,7 @@
 package Client;
 
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.*;
 
@@ -10,9 +12,11 @@ public class Client extends Thread
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
     private String messageIn="";
+    private Controller controller;
 
-    Client()
+    Client(Controller controller)
     {
+        this.controller = controller;
         try
         {
             System.out.println("Client: Creating client");
@@ -39,7 +43,8 @@ public class Client extends Thread
             {
                 // Receive data and print it on console
                 messageIn = dataIn.readUTF();
-                System.out.println(messageIn);
+                System.out.println("Recived message: "+messageIn);
+                getMessage(messageIn);
             }
         }
         catch(IOException e)
@@ -58,6 +63,25 @@ public class Client extends Thread
         catch(IOException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void getMessage(String message)
+    {
+        String temp[] = message.split(" ");
+        if(temp[0].equals("I")) // For initializing
+        {
+            controller.setPlayerNum(Integer.parseInt(temp[1]));
+        }
+        else if(temp[0].equals("S")) // For starting turn
+        {
+            controller.startTurn();
+        }
+        else if(temp[0].equals("M")) // For other players movement
+        {
+            Platform.runLater(() -> {
+                controller.movePawn(Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+            });
         }
     }
 }

@@ -46,6 +46,12 @@ public class Server
                 if (rooms.get(i).addPlayer(serverThread))
                 {
                     System.out.println("Server: new player added to room nr. "+i);
+
+                    if(rooms.get(i).limit == rooms.get(i).getPlayers().size())
+                    {
+                        startupMessage(rooms.get(i));
+                    }
+
                     return rooms.get(i);
                 }
             }
@@ -56,5 +62,14 @@ public class Server
         temp.addPlayer(serverThread);
         rooms.add(temp);
         return temp;
+    }
+
+    public void startupMessage(Room room)
+    {
+        for(int i = 0; i < room.limit; i++)
+        {
+            room.getPlayers().get(i).sendMessage("I " + i);
+        }
+        room.getPlayers().get(0).sendMessage("S");
     }
 }

@@ -16,8 +16,8 @@ public class GameDirector {
         builder.newBoard();
         builder.buildBoard();
         builder.createPlayers();
-        builder.seedPawns();
         builder.setWinningZones();
+        builder.seedPawns();
         builder.setAdjacency();
         builder.setMoving();
         builder.setWinning();

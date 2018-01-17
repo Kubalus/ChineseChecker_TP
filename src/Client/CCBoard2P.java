@@ -94,7 +94,7 @@ public class CCBoard2P extends GameBuilder {
                     this.players[0].addPawn(tempPawn);
                 }
 
-                else if(j == 11 && i >= 10 ){
+                else if(j == 11 && i > 10 ){
                     tempPawn = new Pawn(i,j,this.players[0]);
                     this.board.getField(i,j).setPawn(tempPawn);
                     this.players[0].addPawn(tempPawn);
