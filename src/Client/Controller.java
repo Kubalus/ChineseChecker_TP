@@ -1,7 +1,5 @@
 package Client;
 
-import javafx.application.Platform;
-import javafx.concurrent.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
@@ -10,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -41,6 +38,7 @@ public class Controller implements Initializable
     private int currentX;
     private int currentY;
     ArrayList<Field> possibleMoves;
+    ArrayList<Polygon> highlights = new ArrayList<>();
 
     @FXML MenuItem twoPlayers;
     @FXML MenuItem threePlayers;
@@ -180,6 +178,7 @@ public class Controller implements Initializable
 
     public void highlight(ArrayList<Field> arr)
     {
+        highlights = new ArrayList<>();
         for(int i = 0; i < arr.size(); i++)
         {
             int x = arr.get(i).getCoordinateX();
@@ -193,7 +192,7 @@ public class Controller implements Initializable
                     20*(0.5), 20*(-0.86602540378));
             temp.translateXProperty().set(9);
             temp.translateYProperty().set(-23);
-            temp.setDisable(true);
+            temp.setMouseTransparent(true);
 
             if(x % 2 == 1)
             {
@@ -206,6 +205,7 @@ public class Controller implements Initializable
             temp.opacityProperty().set(0.7);
             temp.setEffect(blur);
 
+            highlights.add(temp);
             boardGrid.add(temp, x, y);
         }
     }
@@ -257,7 +257,6 @@ public class Controller implements Initializable
 
     private void pawnClicked(Circle circle, int x, int y)
     {
-
         if(game.getBoard().getField(x, y).getPawn().getOwner().equals(game.getPlayers()[playerNum]))
         {
             // Clear effects for other pawns
@@ -265,6 +264,12 @@ public class Controller implements Initializable
             {
                 pawnsGUI.get(i).setEffect(null);
             }
+
+            for(int i = 0; i < highlights.size(); i++)
+            {
+                boardGrid.getChildren().remove(highlights.get(i));
+            }
+
             currentX = x;
             currentY = y;
 
@@ -275,7 +280,6 @@ public class Controller implements Initializable
                     game.getBoard().getField(currentX, currentY).getPawn(), game);
 
             highlight(possibleMoves);
-            //refresh();
         }
     }
 
